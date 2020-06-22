@@ -39,6 +39,11 @@ canvas {
     color: white;
     box-shadow: 0 0 10px 5px #5368A6;
     transform: translateX(-150%);
+    transition: .3s;
+}
+
+.rules-container.show {
+    transform: translateX(0);
 }
 
 .rules-container h2 {
