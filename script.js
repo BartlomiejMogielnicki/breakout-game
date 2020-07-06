@@ -90,15 +90,40 @@ const drawBricks = () => {
   });
 };
 
+// Move paddle
+const movePaddle = () => {
+  paddle.x += paddle.dx
+
+  // Wall detection
+  if (paddle.x + paddle.width > canvas.width) {
+    paddle.x = canvas.width - paddle.width;
+  };
+
+  if (paddle.x < 0) {
+    paddle.x = 0;
+  };
+};
+
 // Draw
 const draw = () => {
+  // Clear canvas window
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   drawBall();
   drawPaddle();
   drawScore();
   drawBricks();
 };
 
-draw();
+// Update canvas
+const update = () => {
+  movePaddle();
+  draw();
+
+  requestAnimationFrame(update);
+};
+
+update();
 
 // Event listeners
 rulesBtn.addEventListener('click', () => {
@@ -107,4 +132,20 @@ rulesBtn.addEventListener('click', () => {
 
 closeBtn.addEventListener('click', () => {
   rulesContainer.classList.remove('show');
+});
+
+// Keydown event
+document.addEventListener('keydown', (e) => {
+  if (e.keyCode === 39) {
+    paddle.dx = paddle.speed;
+  } else if (e.keyCode === 37) {
+    paddle.dx = -paddle.speed;
+  };
+});
+
+// Keyup event
+document.addEventListener('keyup', (e) => {
+  if (e.keyCode === 39 || e.keyCode === 37) {
+    paddle.dx = 0;
+  };
 });
