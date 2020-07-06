@@ -5,6 +5,8 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 let score = 0;
+const bricksColumnsNumber = 9;
+const bricksRowsNumber = 5;
 
 // Ball object
 const ball = {
@@ -24,6 +26,31 @@ const paddle = {
   height: 10,
   speed: 8,
   dx: 0
+};
+
+// Brick object
+const brickInfo = {
+  width: 70,
+  height: 20,
+  padding: 10,
+  offsetX: 45,
+  offsetY: 60,
+  visible: true
+};
+
+// Create bricks
+const bricks = [];
+for (let i = 0; i < bricksColumnsNumber; i++) {
+  bricks[i] = [];
+  for (let j = 0; j < bricksRowsNumber; j++) {
+    const x = i * (brickInfo.width + brickInfo.padding) + brickInfo.offsetX;
+    const y = j * (brickInfo.height + brickInfo.padding) + brickInfo.offsetY;
+    bricks[i][j] = {
+      x,
+      y,
+      ...brickInfo
+    };
+  };
 };
 
 // Draw ball on canvas
@@ -50,11 +77,25 @@ const drawScore = () => {
   ctx.fillText(`Score: ${score}`, canvas.width - 100, 30);
 };
 
+// Draw bricks
+const drawBricks = () => {
+  bricks.forEach(column => {
+    column.forEach(brick => {
+      ctx.beginPath();
+      ctx.rect(brick.x, brick.y, brick.width, brick.height);
+      ctx.fillStyle = brick.visible ? '#777' : 'transparent';
+      ctx.fill();
+      ctx.closePath();
+    });
+  });
+};
+
 // Draw
 const draw = () => {
   drawBall();
   drawPaddle();
   drawScore();
+  drawBricks();
 };
 
 draw();
