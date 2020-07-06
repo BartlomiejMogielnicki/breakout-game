@@ -4,6 +4,8 @@ const rulesContainer = document.getElementById('rules-container');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
+let score = 0;
+
 // Ball object
 const ball = {
   x: canvas.width / 2,
@@ -40,10 +42,22 @@ const drawPaddle = () => {
   ctx.fillStyle = '#777';
   ctx.fill();
   ctx.closePath();
-}
+};
 
-drawBall();
-drawPaddle();
+// Draw score
+const drawScore = () => {
+  ctx.font = '20px Arial';
+  ctx.fillText(`Score: ${score}`, canvas.width - 100, 30);
+};
+
+// Draw
+const draw = () => {
+  drawBall();
+  drawPaddle();
+  drawScore();
+};
+
+draw();
 
 // Event listeners
 rulesBtn.addEventListener('click', () => {
