@@ -123,6 +123,18 @@ const moveBall = () => {
   if (ball.x - ball.size > paddle.x && ball.x + ball.size < paddle.x + paddle.width && ball.y + ball.size > paddle.y) {
     ball.dy = -ball.speed;
   };
+
+  // Brick collision
+  bricks.forEach(column => {
+    column.forEach(brick => {
+      if (brick.visible) {
+        if (ball.x - ball.size > brick.x && ball.x + ball.size < brick.x + brick.width && ball.y + ball.size > brick.y && ball.y - ball.size < brick.y + brick.height) {
+          ball.dy *= -1;
+          brick.visible = false;
+        };
+      };
+    });
+  });
 };
 
 // Draw
