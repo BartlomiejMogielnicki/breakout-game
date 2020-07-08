@@ -104,6 +104,27 @@ const movePaddle = () => {
   };
 };
 
+// Move ball
+const moveBall = () => {
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  // Wall collision detection (horizontal)
+  if (ball.x + ball.size > canvas.width || ball.x - ball.size < 0) {
+    ball.dx *= -1;
+  };
+
+  // Wall collision detection (vertical)
+  if (ball.y + ball.size > canvas.height || ball.y - ball.size < 0) {
+    ball.dy *= -1;
+  };
+
+  // Paddle collision
+  if (ball.x - ball.size > paddle.x && ball.x + ball.size < paddle.x + paddle.width && ball.y + ball.size > paddle.y) {
+    ball.dy = -ball.speed;
+  };
+};
+
 // Draw
 const draw = () => {
   // Clear canvas window
@@ -118,6 +139,7 @@ const draw = () => {
 // Update canvas
 const update = () => {
   movePaddle();
+  moveBall();
   draw();
 
   requestAnimationFrame(update);
