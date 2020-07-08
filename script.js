@@ -90,6 +90,24 @@ const drawBricks = () => {
   });
 };
 
+// Show all bricks
+const showAllBricks = () => {
+  bricks.forEach(column => {
+    column.forEach(brick => {
+      brick.visible = true;
+    });
+  });
+};
+
+// Increase score
+const increaseScore = () => {
+  score++;
+
+  if (score % (bricksColumnsNumber * bricksRowsNumber) === 0) {
+    showAllBricks();
+  };
+};
+
 // Move paddle
 const movePaddle = () => {
   paddle.x += paddle.dx
@@ -131,10 +149,18 @@ const moveBall = () => {
         if (ball.x - ball.size > brick.x && ball.x + ball.size < brick.x + brick.width && ball.y + ball.size > brick.y && ball.y - ball.size < brick.y + brick.height) {
           ball.dy *= -1;
           brick.visible = false;
+
+          increaseScore();
         };
       };
     });
   });
+
+  // Bottom wall collision
+  if (ball.y + ball.size > canvas.height) {
+    score = 0;
+    showAllBricks();
+  };
 };
 
 // Draw
